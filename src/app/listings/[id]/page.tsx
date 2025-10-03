@@ -277,7 +277,7 @@ export default function ListingPage({ params }: { params: { id: string } }) {
               </Button>
 
               <p className="text-xs text-center text-slate-500 mt-4">
-                You won't be charged yet. Host must approve your request.
+                You won&apos;t be charged yet. Host must approve your request.
               </p>
             </Card>
           </div>

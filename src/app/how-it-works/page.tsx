@@ -233,6 +233,6 @@ const faqs = [
   },
   {
     question: "How do I become a host?",
-    answer: "Visit our 'Become a Host' page to start your application. We'll verify your equipment, inspect your room, and help you create your listing. Approval typically takes 3-5 days.",
+    answer: "Visit our 'Become a Host' page to start your application. We&apos;ll verify your equipment, inspect your room, and help you create your listing. Approval typically takes 3-5 days.",
   },
 ];
