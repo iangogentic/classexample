@@ -76,7 +76,7 @@ export default function HowItWorksPage() {
       <section className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="text-center mb-12">
           <h2 className="text-3xl font-bold text-slate-900 mb-4">Transparent Pricing</h2>
-          <p className="text-lg text-slate-600">No hidden fees. Know exactly what you'll pay.</p>
+          <p className="text-lg text-slate-600">No hidden fees. Know exactly what you&apos;ll pay.</p>
         </div>
 
         <div className="grid md:grid-cols-2 gap-8">
@@ -193,7 +193,7 @@ const steps = [
     icon: Music,
     features: [
       "Host provides setup and equipment overview",
-      "Bring your own music or use host's collection",
+      "Bring your own music or use host&apos;s collection",
       "Take notes and photos (with permission)",
       "Leave a review to help other audiophiles",
     ],

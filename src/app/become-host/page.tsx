@@ -155,7 +155,7 @@ export default function BecomeHostPage() {
           <div className="text-center mb-12">
             <Shield className="h-16 w-16 text-purple-400 mx-auto mb-4" />
             <h2 className="text-3xl font-bold mb-4">Host Protection Guarantee</h2>
-            <p className="text-lg text-slate-300">We've got your back with comprehensive coverage</p>
+            <p className="text-lg text-slate-300">We&apos;ve got your back with comprehensive coverage</p>
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
@@ -235,7 +235,7 @@ const hostSteps = [
   },
   {
     title: "Go Live & Start Hosting",
-    description: "Once approved, your listing goes live. Guests can find and book your room. You'll receive notifications for booking requests.",
+    description: "Once approved, your listing goes live. Guests can find and book your room. You&apos;ll receive notifications for booking requests.",
     tags: ["Instant bookings", "24/7 support", "Host dashboard"],
   },
 ];
