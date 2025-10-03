@@ -1,0 +1,247 @@
+version: 1
+workflow: tests-first
+
+tasks:
+  - id: T-1
+    title: Scaffold Next.js app with TypeScript, Tailwind, shadcn/ui
+    acceptance_tests:
+      - "GET / returns 200"
+      - "GET /api/health returns 200"
+      - "npm run build succeeds"
+      - "shadcn components render without errors"
+    definition_of_done:
+      - Next.js 15 App Router initialized
+      - TypeScript, Tailwind, ESLint configured
+      - shadcn/ui installed with initial components (button, input, card)
+      - Dev server runs on localhost:3000
+      - Health check API route functional
+    status: done
+
+  - id: T-2
+    title: Setup Prisma + Neon database with core schema
+    acceptance_tests:
+      - "prisma generate succeeds"
+      - "prisma migrate dev creates tables"
+      - "User, Listing, Booking models exist in database"
+    definition_of_done:
+      - DATABASE_URL configured in .env
+      - Prisma schema includes User, HostProfile, Listing, Photo, GearChain, Availability, Booking, Message, Review, PayoutAccount, IdentityVerification
+      - Initial migration created
+      - Prisma Client generated
+    status: todo
+
+  - id: T-3
+    title: Implement authentication with Clerk (email + OAuth)
+    acceptance_tests:
+      - "Unauthenticated user redirected to /sign-in"
+      - "POST /api/auth/callback creates User record"
+      - "Authenticated user can access protected routes"
+    definition_of_done:
+      - Clerk installed and configured
+      - Sign-in/sign-up pages functional
+      - Middleware protects /dashboard/* routes
+      - User sync to Prisma on first login
+    status: todo
+
+  - id: T-4
+    title: Create listing CRUD API routes
+    acceptance_tests:
+      - "POST /api/listings creates listing with valid data"
+      - "GET /api/listings/:id returns listing details"
+      - "PATCH /api/listings/:id updates listing (owner only)"
+      - "DELETE /api/listings/:id returns 403 for non-owners"
+    definition_of_done:
+      - POST /api/listings validates schema with Zod
+      - GET /api/listings/:id includes photos, gear chains
+      - PATCH requires ownership check
+      - All routes return proper status codes
+    status: todo
+
+  - id: T-5
+    title: Build host dashboard with listing management UI
+    acceptance_tests:
+      - "Host can create listing with photos, gear chain, pricing"
+      - "Host sees all their listings in dashboard"
+      - "Host can edit listing details"
+    definition_of_done:
+      - /dashboard/listings page with table/cards
+      - /dashboard/listings/new form with shadcn components
+      - /dashboard/listings/[id]/edit form
+      - Photo upload (UploadThing or placeholder)
+      - Gear chain builder UI
+    status: todo
+
+  - id: T-6
+    title: Implement Stripe Connect Express onboarding for hosts
+    acceptance_tests:
+      - "POST /api/host/connect/link returns Stripe account link"
+      - "Webhook updates PayoutAccount.enabled on verification"
+      - "Host dashboard shows payout status"
+    definition_of_done:
+      - Stripe Connect Express account creation
+      - POST /api/host/connect/link generates onboarding URL
+      - Webhook handler for account.updated events
+      - PayoutAccount model synced with Stripe
+    status: todo
+
+  - id: T-7
+    title: Create search page with map and filters
+    acceptance_tests:
+      - "GET /api/search?city=Dallas returns relevant listings"
+      - "Search filters by price, capacity, hostPresent"
+      - "Map displays listing markers"
+    definition_of_done:
+      - /search page with Mapbox/Google Maps integration
+      - Filter UI (price range, capacity, treated room, host present)
+      - GET /api/search supports query params
+      - Listing cards with photos, price, rating
+    status: todo
+
+  - id: T-8
+    title: Build listing detail page with booking widget
+    acceptance_tests:
+      - "GET /listings/:id renders photos, gear chain, rules, reviews"
+      - "Booking widget calculates price based on hours"
+      - "Calendar shows available/blocked slots"
+    definition_of_done:
+      - /listings/[id] page with photo carousel
+      - Gear chain badges display
+      - House rules section
+      - Date/time picker with availability checking
+      - Price calculator (hours × hourlyPrice + fees)
+    status: todo
+
+  - id: T-9
+    title: Implement booking flow with Stripe payment + deposit
+    acceptance_tests:
+      - "POST /api/bookings creates PaymentIntent + SetupIntent"
+      - "POST /api/bookings/:id/confirm charges payment and holds deposit"
+      - "Booking status updates to CONFIRMED"
+      - "Availability is blocked for confirmed booking"
+    definition_of_done:
+      - POST /api/bookings creates intents with Stripe
+      - Booking confirmation page with Stripe Elements
+      - POST /api/bookings/:id/confirm completes payment
+      - Availability table updated on confirmation
+      - Email notification sent (or queued)
+    status: todo
+
+  - id: T-10
+    title: Add Stripe Identity verification for guests
+    acceptance_tests:
+      - "Guest prompted for ID verification before first booking"
+      - "POST /api/identity/verify creates Stripe Identity session"
+      - "Webhook updates IdentityVerification.status on completion"
+    definition_of_done:
+      - POST /api/identity/verify returns session URL
+      - Stripe Identity webhook handler
+      - IdentityVerification model synced
+      - Booking flow blocks unverified guests
+    status: todo
+
+  - id: T-11
+    title: Create messaging system for booking threads
+    acceptance_tests:
+      - "POST /api/messages creates message in booking thread"
+      - "GET /api/bookings/:id/messages returns thread"
+      - "Only booking participants can access messages"
+    definition_of_done:
+      - POST /api/messages with bookingId, senderId, body
+      - GET /api/bookings/:id/messages ordered by createdAt
+      - Authorization checks (guest/host only)
+      - UI component for message thread
+    status: todo
+
+  - id: T-12
+    title: Implement post-session review system
+    acceptance_tests:
+      - "POST /api/reviews creates review after session completion"
+      - "Review updates listing.ratingAvg and ratingCount"
+      - "Both guest and host can leave one review per booking"
+    definition_of_done:
+      - POST /api/reviews validates booking status = COMPLETED
+      - Review form UI on /bookings/:id
+      - Aggregate rating calculation updates Listing
+      - Reviews display on listing detail page
+    status: todo
+
+  - id: T-13
+    title: Build availability management for hosts
+    acceptance_tests:
+      - "Host can block/unblock time slots"
+      - "POST /api/availability creates blocked periods"
+      - "Booking flow respects blocked slots"
+    definition_of_done:
+      - /dashboard/availability calendar UI
+      - POST /api/availability creates Availability records
+      - DELETE /api/availability/:id removes blocks
+      - Booking validation checks Availability + existing Bookings
+    status: todo
+
+  - id: T-14
+    title: Implement Stripe webhook handler for payments and Connect events
+    acceptance_tests:
+      - "payment_intent.succeeded updates Booking.status"
+      - "account.updated syncs PayoutAccount.enabled"
+      - "Webhook signature validation passes"
+    definition_of_done:
+      - POST /api/stripe/webhooks with signature verification
+      - Handlers for payment_intent events
+      - Handlers for account.updated, identity.verification.updated
+      - Error logging for failed webhook processing
+    status: todo
+
+  - id: T-15
+    title: Create deposit capture flow for incidents
+    acceptance_tests:
+      - "POST /api/deposits/:bookingId/capture (admin/host) captures deposit"
+      - "Capture requires evidence (photos, description)"
+      - "Guest notified of deposit capture"
+    definition_of_done:
+      - POST /api/deposits/:bookingId/capture with authorization
+      - Stripe SetupIntent off-session capture
+      - Booking.status updates to DISPUTED
+      - Email/SMS notification to guest
+    status: todo
+
+  - id: T-16
+    title: Add seed script with demo listings
+    acceptance_tests:
+      - "npm run seed creates 3 listings with photos, gear chains"
+      - "Seed users include host and guest accounts"
+      - "Seeded data includes availability slots"
+    definition_of_done:
+      - prisma/seed.ts creates demo Users, HostProfiles, Listings
+      - Each listing has Photos, GearChains, Availability
+      - Script is idempotent (clears existing seed data)
+      - npm run seed succeeds
+    status: todo
+
+  - id: T-17
+    title: Setup Playwright E2E smoke tests
+    acceptance_tests:
+      - "Auth flow: sign up, sign in, access dashboard"
+      - "Create listing flow completes"
+      - "Search and view listing detail works"
+      - "Booking flow with test card succeeds"
+    definition_of_done:
+      - e2e/smoke.spec.ts covers auth, listing CRUD, booking
+      - Playwright config uses test database
+      - npm run test:e2e passes locally
+      - CI script includes E2E tests
+    status: todo
+
+  - id: T-18
+    title: Deploy to Vercel with environment configuration
+    acceptance_tests:
+      - "vercel deploy succeeds"
+      - "Production build passes"
+      - "Environment variables configured"
+      - "Database migrations applied"
+    definition_of_done:
+      - vercel.json configured
+      - All env vars in Vercel dashboard
+      - Prisma generate runs in build
+      - Health check endpoint returns 200
+      - Stripe webhooks point to production URL
+    status: todo

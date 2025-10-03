@@ -1,0 +1,45 @@
+{
+  "permissions": {
+    "allow": [
+      "Edit(**/*)",
+      "Read(**/*)",
+      "Write(**/*)",
+      "Glob(**/*)",
+      "Grep(**/*)",
+      "Bash(git add *)",
+      "Bash(git commit -m *)",
+      "Bash(git push*)",
+      "Bash(git status*)",
+      "Bash(git diff*)",
+      "Bash(git log*)",
+      "Bash(gh auth *)",
+      "Bash(gh repo *)",
+      "Bash(vercel login)",
+      "Bash(vercel link)",
+      "Bash(vercel env add *)",
+      "Bash(vercel deploy*)",
+      "Bash(vercel logs *)",
+      "Bash(vercel inspect *)",
+      "Bash(vercel build)",
+      "Bash(npm install*)",
+      "Bash(npm run *)",
+      "Bash(pnpm *)",
+      "Bash(npx shadcn*)",
+      "Bash(npx prisma*)",
+      "Bash(npx playwright*)",
+      "mcp__playwright__browser_*",
+      "mcp__neon__*",
+      "mcp__shadcn__*",
+      "mcp__filesystem__*"
+    ],
+    "deny": [
+      "Bash(rm -rf *)",
+      "Bash(rm -rf /*)",
+      "Read(.env)",
+      "Read(.env.local)",
+      "Read(secrets/**)",
+      "Write(.env)",
+      "Edit(.env)"
+    ]
+  }
+}
