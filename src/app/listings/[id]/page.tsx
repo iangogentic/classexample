@@ -59,8 +59,9 @@ Perfect for audiophiles who want to experience high-end planar speakers before m
   },
 ];
 
-export default function ListingPage({ params }: { params: { id: string } }) {
-  const room = rooms.find((r) => r.id === params.id);
+export default async function ListingPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
+  const room = rooms.find((r) => r.id === id);
 
   if (!room) {
     notFound();
